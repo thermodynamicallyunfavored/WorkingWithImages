@@ -1,10 +1,16 @@
-PImage tae, jimin, run, seaside, bubbles; //declare variables
-
+PImage tae, jimin, run, seaside, bubbles, bubbles2; //declare variables
 int sz = 5; 
-float a,b; 
+
+int count = 700; //makes 50 bubbles arrays
+PVector [] loc = new PVector [count]; //to make arrays
+PVector [] vel = new PVector [count]; 
+float sz2 [] = new float [count]; 
+
+
+
 
 void setup () {
-  size (800, 600); 
+  size (800, 600); //canvas size larger for taehyung
   tae = loadImage("taehyung.jpg");
   image(tae, 0, 0); //draws taehyung as bg initially
   filter(DILATE); 
@@ -13,8 +19,15 @@ void setup () {
   seaside = loadImage("seaside.jpg");
   bubbles = loadImage("bubbles.jpg");
   jimin.mask(bubbles);
-  a = random(700,800);
-  b = random(450,600); 
+  bubbles2 = loadImage("bubbles 2.jpg"); 
+
+  for (int i = 0; i < count; i ++) { // for arrays
+    //initialize variables
+    loc[i] = new PVector (random(700, 800), random(450, 600)); //starts off in random region on lower right hand side of screen
+    vel[i] = PVector.random2D(); //gives speed magnitude of one
+    vel[i].mult(random(3, 10)); //multiply by random speed between 3 and 10
+    sz2[i] = random(2, 60); //random diamater between 2-60
+  }
 }
 
 void draw () {
@@ -24,12 +37,20 @@ void draw () {
     for (int y = 0; y < height; y += sz) { 
 
       fill(jimin.get(x, y)); //replaces taehyung with jimin
-      noStroke(); 
-      ellipse(x, y, sz, sz);
+      noStroke(); //no stroke
+      ellipse(x, y, sz, sz); //draw random ellipse
     }
   }
-  filter(POSTERIZE, 64); //jimin only made up of 16 colors
-  if (mouseX < 300 && mouseY > 350) {
-    image(seaside, a,b);
+  filter(POSTERIZE, 64); //jimin only made up of 64 colors
+  for (int i = 0; i < count; i ++) { // for arrays
+    if (mouseX < 300 && mouseY > 350) { // if mouse in lower left corner of screen
+
+      //then fill up with bubbles wiwth the img bubbles2
+      fill(bubbles2.get(100, 200)); //want to fill up with random spots from bubbles2.jpg but?? 
+      ellipse(loc[i].x, loc[i].y, sz2[i], sz2[i]);
+      loc[i].add(vel[i]); // gives ellipse velocity
+      
+      //just want to blur bubbles img but it affects jimin.jpg and sometimes makes the code not run
+    }
   }
 }
