@@ -1,6 +1,7 @@
 PImage tae, jimin, run, seaside, bubbles; //declare variables
 
-int sz = 2; 
+int sz = 5; 
+float a,b; 
 
 void setup () {
   size (800, 600); 
@@ -12,11 +13,13 @@ void setup () {
   seaside = loadImage("seaside.jpg");
   bubbles = loadImage("bubbles.jpg");
   jimin.mask(bubbles);
+  a = random(700,800);
+  b = random(450,600); 
 }
 
 void draw () {
   //create a grid of circles
-
+  background(map(mouseY, 0, height, 0, 255));
   for (int x = 0; x < width; x += sz) { //frame rate for this is too fast rn, need to fix it
     for (int y = 0; y < height; y += sz) { 
 
@@ -25,5 +28,8 @@ void draw () {
       ellipse(x, y, sz, sz);
     }
   }
-  filter(POSTERIZE, 16); //jimin only made up of 16 colors
+  filter(POSTERIZE, 64); //jimin only made up of 16 colors
+  if (mouseX < 300 && mouseY > 350) {
+    image(seaside, a,b);
+  }
 }
