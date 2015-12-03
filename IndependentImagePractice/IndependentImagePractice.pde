@@ -1,4 +1,4 @@
-PImage tae, jimin, seaside, bubbles, bubbles2, sky; //declare variables
+PImage tae, jimin, seaside, bubbles, bubbles2, sky, run; //declare variables
 int sz = 5; 
 
 int count = 700; //makes 50 bubbles arrays
@@ -21,6 +21,7 @@ void setup () {
   bubbles2 = loadImage("bubbles 2.jpg"); 
   sky = loadImage("sky.jpg"); 
   seaside.mask(sky); //create mask for seaside with sky
+  run = loadImage("run run run.jpg"); 
 
   for (int i = 0; i < count; i ++) { // for arrays
     //initialize variables
@@ -49,14 +50,18 @@ void draw () {
     if (mouseX < 300 && mouseY > 350) { // if mouse in lower left corner of screen
 
       //then fill up with bubbles wiwth the img bubbles2
-      fill(bubbles2.get(100, 200)); //want to fill up with random spots from bubbles2.jp but?? 
-      ellipse(loc[i].x, loc[i].y, sz2[i], sz2[i]);
+
+      fill(bubbles2.get(300, 239)); //want to fill up with random spots from bubbles2.jp but?? 
+      ellipse(loc[i].x, loc[i].y, sz2[i], sz2[i]); //draw ellipse 
       loc[i].add(vel[i]); // gives ellipse velocity
 
       //just want to blur bubbles img but it affects jimin.jpg and sometimes makes the code not run
 
-      if (loc[i].x < 100 && loc[i].y < 50) { //if one of the bubbles reaches top left corne
+      if (loc[i].x < 100 && loc[i].y < 50) { //if one of the bubbles reaches top left corner
         image(seaside, loc[i].x, loc[i].y); //draw seaside
+        if (loc[i].x < 10 && loc[i].y < 10) { //if seaside reaches top left corner
+          image(run, 0, 0); //draw run
+        }
       }
     }
   }
